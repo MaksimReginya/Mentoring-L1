@@ -8,3 +8,29 @@ D:\Maksim\EPAM\MENTORING\1\WindowsFormsApp\WindowsFormsApp\obj\Debug\WindowsForm
 D:\Maksim\EPAM\MENTORING\1\WindowsFormsApp\WindowsFormsApp\obj\Debug\WindowsFormsApp.csproj.CoreCompileInputs.cache
 D:\Maksim\EPAM\MENTORING\1\WindowsFormsApp\WindowsFormsApp\obj\Debug\WindowsFormsApp.exe
 D:\Maksim\EPAM\MENTORING\1\WindowsFormsApp\WindowsFormsApp\obj\Debug\WindowsFormsApp.pdb
+D:\Maksim\EPAM\MENTORING\1st module - Introduction to .Net\WindowsFormsApp\WindowsFormsApp\bin\Debug\WindowsFormsApp.exe.config
+D:\Maksim\EPAM\MENTORING\1st module - Introduction to .Net\WindowsFormsApp\WindowsFormsApp\bin\Debug\WindowsFormsApp.exe
+D:\Maksim\EPAM\MENTORING\1st module - Introduction to .Net\WindowsFormsApp\WindowsFormsApp\bin\Debug\WindowsFormsApp.pdb
+D:\Maksim\EPAM\MENTORING\1st module - Introduction to .Net\WindowsFormsApp\WindowsFormsApp\bin\Debug\System.Data.Common.dll
+D:\Maksim\EPAM\MENTORING\1st module - Introduction to .Net\WindowsFormsApp\WindowsFormsApp\bin\Debug\System.Diagnostics.StackTrace.dll
+D:\Maksim\EPAM\MENTORING\1st module - Introduction to .Net\WindowsFormsApp\WindowsFormsApp\bin\Debug\System.Diagnostics.Tracing.dll
+D:\Maksim\EPAM\MENTORING\1st module - Introduction to .Net\WindowsFormsApp\WindowsFormsApp\bin\Debug\System.Globalization.Extensions.dll
+D:\Maksim\EPAM\MENTORING\1st module - Introduction to .Net\WindowsFormsApp\WindowsFormsApp\bin\Debug\System.IO.Compression.dll
+D:\Maksim\EPAM\MENTORING\1st module - Introduction to .Net\WindowsFormsApp\WindowsFormsApp\bin\Debug\System.Net.Http.dll
+D:\Maksim\EPAM\MENTORING\1st module - Introduction to .Net\WindowsFormsApp\WindowsFormsApp\bin\Debug\System.Net.Sockets.dll
+D:\Maksim\EPAM\MENTORING\1st module - Introduction to .Net\WindowsFormsApp\WindowsFormsApp\bin\Debug\System.Runtime.Serialization.Primitives.dll
+D:\Maksim\EPAM\MENTORING\1st module - Introduction to .Net\WindowsFormsApp\WindowsFormsApp\bin\Debug\System.Security.Cryptography.Algorithms.dll
+D:\Maksim\EPAM\MENTORING\1st module - Introduction to .Net\WindowsFormsApp\WindowsFormsApp\bin\Debug\System.Security.SecureString.dll
+D:\Maksim\EPAM\MENTORING\1st module - Introduction to .Net\WindowsFormsApp\WindowsFormsApp\bin\Debug\System.Threading.Overlapped.dll
+D:\Maksim\EPAM\MENTORING\1st module - Introduction to .Net\WindowsFormsApp\WindowsFormsApp\bin\Debug\System.Xml.XPath.XDocument.dll
+D:\Maksim\EPAM\MENTORING\1st module - Introduction to .Net\WindowsFormsApp\WindowsFormsApp\bin\Debug\StandartClassLibrary.dll
+D:\Maksim\EPAM\MENTORING\1st module - Introduction to .Net\WindowsFormsApp\WindowsFormsApp\bin\Debug\StandartClassLibrary.pdb
+D:\Maksim\EPAM\MENTORING\1st module - Introduction to .Net\WindowsFormsApp\WindowsFormsApp\obj\Debug\WindowsFormsApp.csprojAssemblyReference.cache
+D:\Maksim\EPAM\MENTORING\1st module - Introduction to .Net\WindowsFormsApp\WindowsFormsApp\obj\Debug\WindowsFormsApp.exe.config
+D:\Maksim\EPAM\MENTORING\1st module - Introduction to .Net\WindowsFormsApp\WindowsFormsApp\obj\Debug\WindowsFormsApp.MainForm.resources
+D:\Maksim\EPAM\MENTORING\1st module - Introduction to .Net\WindowsFormsApp\WindowsFormsApp\obj\Debug\WindowsFormsApp.Properties.Resources.resources
+D:\Maksim\EPAM\MENTORING\1st module - Introduction to .Net\WindowsFormsApp\WindowsFormsApp\obj\Debug\WindowsFormsApp.csproj.GenerateResource.cache
+D:\Maksim\EPAM\MENTORING\1st module - Introduction to .Net\WindowsFormsApp\WindowsFormsApp\obj\Debug\WindowsFormsApp.csproj.CoreCompileInputs.cache
+D:\Maksim\EPAM\MENTORING\1st module - Introduction to .Net\WindowsFormsApp\WindowsFormsApp\obj\Debug\WindowsFormsApp.csproj.CopyComplete
+D:\Maksim\EPAM\MENTORING\1st module - Introduction to .Net\WindowsFormsApp\WindowsFormsApp\obj\Debug\WindowsFormsApp.exe
+D:\Maksim\EPAM\MENTORING\1st module - Introduction to .Net\WindowsFormsApp\WindowsFormsApp\obj\Debug\WindowsFormsApp.pdb

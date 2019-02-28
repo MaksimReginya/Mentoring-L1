@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using StandartClassLibrary;
 
 namespace WindowsFormsApp
 {
@@ -13,8 +14,9 @@ namespace WindowsFormsApp
 		private void btnHello_Click(object sender, EventArgs e)
 		{
 			string name = this.tbInputName.Text;
+			string helloMessage = HelloBuilder.BuildHelloMessage(name);
 
-			MessageBox.Show($"Hello, {name}!");
+			MessageBox.Show(helloMessage);
 		}
 	}
 }
