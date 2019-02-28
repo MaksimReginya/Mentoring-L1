@@ -1,7 +1,6 @@
 ﻿using Android.App;
 using Android.OS;
 using Android.Support.V7.App;
-using Android.Runtime;
 using Android.Widget;
 
 namespace XamarinNative
@@ -15,15 +14,16 @@ namespace XamarinNative
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.activity_main);
 
-			Button btn = FindViewById<Button>(Resource.Id.btnHello);
+			Button btn = this.FindViewById<Button>(Resource.Id.btnHello);
 			btn.Click += this.Btn_Click;
         }
 
 		private void Btn_Click(object sender, System.EventArgs e)
 		{
-			TextView tvName = FindViewById<TextView>(Resource.Id.tvName);
+			EditText etInputName = this.FindViewById<EditText>(Resource.Id.etInputName);
+			TextView tvOutputHello = this.FindViewById<TextView>(Resource.Id.tvOutputHello);
 
-			tvName.Text = "Hello, world!";
+			tvOutputHello.Text = $"Hello, {etInputName.Text}!";
 		}
 	}
 }

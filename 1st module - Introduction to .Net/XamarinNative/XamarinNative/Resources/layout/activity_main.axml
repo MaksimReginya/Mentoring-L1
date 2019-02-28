@@ -4,18 +4,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-	<TextView
-		android:text="Large Text"
+	<EditText
+		android:hint="Please, enter your name"
 		android:textAppearance="?android:attr/textAppearanceLarge"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:id="@+id/tvName" />
+		android:inputType="text"
+		android:maxLines="1"
+		android:id="@+id/etInputName" />
 	<Button
-		android:text="Button"
+		android:text="Hello"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_below="@id/tvName"
+		android:layout_below="@id/etInputName"
 		android:minWidth="25px"
 		android:minHeight="25px"
 		android:id="@+id/btnHello" />
+	<TextView
+		android:text=""
+		android:textAppearance="?android:attr/textAppearanceLarge"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/btnHello"
+		android:layout_centerHorizontal="true"
+		android:layout_centerVertical="true"
+		android:id="@+id/tvOutputHello" />
 </RelativeLayout>
