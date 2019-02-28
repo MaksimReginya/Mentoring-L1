@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:XamarinForms"
+             x:Class="XamarinForms.MainPage">
+
+    <StackLayout>
+        <Entry HorizontalOptions="Center"
+           VerticalOptions="CenterAndExpand"
+           Placeholder="Please, enter your name." x:Name="entryName"/>
+        <Label FontSize="Large"
+           HorizontalOptions="Center"
+           VerticalOptions="CenterAndExpand" x:Name="lblName"/>
+        <Button Text="Hello" HorizontalOptions="End" Clicked="Button_Clicked"></Button>
+    </StackLayout>
+
+</ContentPage>
