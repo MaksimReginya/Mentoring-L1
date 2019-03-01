@@ -2,6 +2,7 @@
 using Android.OS;
 using Android.Support.V7.App;
 using Android.Widget;
+using StandartClassLibrary;
 
 namespace XamarinNative
 {
@@ -23,7 +24,8 @@ namespace XamarinNative
 			EditText etInputName = this.FindViewById<EditText>(Resource.Id.etInputName);
 			TextView tvOutputHello = this.FindViewById<TextView>(Resource.Id.tvOutputHello);
 
-			tvOutputHello.Text = $"Hello, {etInputName.Text}!";
+			string helloMessage = HelloBuilder.BuildHelloMessage(etInputName.Text);
+			tvOutputHello.Text = helloMessage;
 		}
 	}
 }
