@@ -1,4 +1,5 @@
 ﻿using System;
+using StandartClassLibrary;
 
 namespace ConsoleApp
 {
@@ -6,7 +7,9 @@ namespace ConsoleApp
 	{
 		static void Main(string[] args)
 		{
-			Console.WriteLine($"Hello, {args[0]}!");
+			string helloMessage = HelloBuilder.BuildHelloMessage(args[0]);
+
+			Console.WriteLine(helloMessage);
 		}
 	}
 }

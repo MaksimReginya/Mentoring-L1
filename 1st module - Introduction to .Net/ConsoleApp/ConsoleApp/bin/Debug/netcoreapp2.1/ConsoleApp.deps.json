@@ -7,8 +7,19 @@
   "targets": {
     ".NETCoreApp,Version=v2.1": {
       "ConsoleApp/1.0.0": {
+        "dependencies": {
+          "StandartClassLibrary": "1.0.0.0"
+        },
         "runtime": {
           "ConsoleApp.dll": {}
+        }
+      },
+      "StandartClassLibrary/1.0.0.0": {
+        "runtime": {
+          "StandartClassLibrary.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       }
     }
@@ -16,6 +27,11 @@
   "libraries": {
     "ConsoleApp/1.0.0": {
       "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "StandartClassLibrary/1.0.0.0": {
+      "type": "reference",
       "serviceable": false,
       "sha512": ""
     }

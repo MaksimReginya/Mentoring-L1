@@ -9,3 +9,17 @@ D:\Maksim\EPAM\MENTORING\1\ConsoleApp\ConsoleApp\obj\Debug\netcoreapp2.1\Console
 D:\Maksim\EPAM\MENTORING\1\ConsoleApp\ConsoleApp\obj\Debug\netcoreapp2.1\ConsoleApp.AssemblyInfo.cs
 D:\Maksim\EPAM\MENTORING\1\ConsoleApp\ConsoleApp\obj\Debug\netcoreapp2.1\ConsoleApp.dll
 D:\Maksim\EPAM\MENTORING\1\ConsoleApp\ConsoleApp\obj\Debug\netcoreapp2.1\ConsoleApp.pdb
+D:\Mentoring\github\Mentoring-L1\1st module - Introduction to .Net\ConsoleApp\ConsoleApp\bin\Debug\netcoreapp2.1\ConsoleApp.deps.json
+D:\Mentoring\github\Mentoring-L1\1st module - Introduction to .Net\ConsoleApp\ConsoleApp\bin\Debug\netcoreapp2.1\ConsoleApp.runtimeconfig.json
+D:\Mentoring\github\Mentoring-L1\1st module - Introduction to .Net\ConsoleApp\ConsoleApp\bin\Debug\netcoreapp2.1\ConsoleApp.runtimeconfig.dev.json
+D:\Mentoring\github\Mentoring-L1\1st module - Introduction to .Net\ConsoleApp\ConsoleApp\bin\Debug\netcoreapp2.1\ConsoleApp.dll
+D:\Mentoring\github\Mentoring-L1\1st module - Introduction to .Net\ConsoleApp\ConsoleApp\bin\Debug\netcoreapp2.1\ConsoleApp.pdb
+D:\Mentoring\github\Mentoring-L1\1st module - Introduction to .Net\ConsoleApp\ConsoleApp\bin\Debug\netcoreapp2.1\StandartClassLibrary.dll
+D:\Mentoring\github\Mentoring-L1\1st module - Introduction to .Net\ConsoleApp\ConsoleApp\bin\Debug\netcoreapp2.1\StandartClassLibrary.pdb
+D:\Mentoring\github\Mentoring-L1\1st module - Introduction to .Net\ConsoleApp\ConsoleApp\obj\Debug\netcoreapp2.1\ConsoleApp.csprojAssemblyReference.cache
+D:\Mentoring\github\Mentoring-L1\1st module - Introduction to .Net\ConsoleApp\ConsoleApp\obj\Debug\netcoreapp2.1\ConsoleApp.csproj.CoreCompileInputs.cache
+D:\Mentoring\github\Mentoring-L1\1st module - Introduction to .Net\ConsoleApp\ConsoleApp\obj\Debug\netcoreapp2.1\ConsoleApp.AssemblyInfoInputs.cache
+D:\Mentoring\github\Mentoring-L1\1st module - Introduction to .Net\ConsoleApp\ConsoleApp\obj\Debug\netcoreapp2.1\ConsoleApp.AssemblyInfo.cs
+D:\Mentoring\github\Mentoring-L1\1st module - Introduction to .Net\ConsoleApp\ConsoleApp\obj\Debug\netcoreapp2.1\ConsoleApp.csproj.CopyComplete
+D:\Mentoring\github\Mentoring-L1\1st module - Introduction to .Net\ConsoleApp\ConsoleApp\obj\Debug\netcoreapp2.1\ConsoleApp.dll
+D:\Mentoring\github\Mentoring-L1\1st module - Introduction to .Net\ConsoleApp\ConsoleApp\obj\Debug\netcoreapp2.1\ConsoleApp.pdb
