@@ -1,5 +1,6 @@
 ﻿using System;
 using Xamarin.Forms;
+using StandartClassLibrary;
 
 namespace XamarinForms
 {
@@ -12,7 +13,9 @@ namespace XamarinForms
 
 		private void Button_Clicked(object sender, EventArgs e)
 		{
-			lblName.Text = $"Hello, {entryName.Text}!";
+			string helloMessage = HelloBuilder.BuildHelloMessage(entryName.Text);
+
+			lblName.Text = helloMessage;
 		}
 	}
 }
