@@ -688,32 +688,31 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Maksim_Rehinia\\.nuget\\packages\\": {},
+    "C:\\Users\\MSI_Home\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Mentoring\\github\\Mentoring-L1\\1st module - Introduction to .Net\\ConsoleApp\\ConsoleApp\\ConsoleApp.csproj",
+      "projectUniqueName": "D:\\Maksim\\EPAM\\MENTORING\\1st module - Introduction to .Net\\ConsoleApp\\ConsoleApp\\ConsoleApp.csproj",
       "projectName": "ConsoleApp",
-      "projectPath": "D:\\Mentoring\\github\\Mentoring-L1\\1st module - Introduction to .Net\\ConsoleApp\\ConsoleApp\\ConsoleApp.csproj",
-      "packagesPath": "C:\\Users\\Maksim_Rehinia\\.nuget\\packages\\",
-      "outputPath": "D:\\Mentoring\\github\\Mentoring-L1\\1st module - Introduction to .Net\\ConsoleApp\\ConsoleApp\\obj\\",
+      "projectPath": "D:\\Maksim\\EPAM\\MENTORING\\1st module - Introduction to .Net\\ConsoleApp\\ConsoleApp\\ConsoleApp.csproj",
+      "packagesPath": "C:\\Users\\MSI_Home\\.nuget\\packages\\",
+      "outputPath": "D:\\Maksim\\EPAM\\MENTORING\\1st module - Introduction to .Net\\ConsoleApp\\ConsoleApp\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\Maksim_Rehinia\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\MSI_Home\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.1"
       ],
       "sources": {
-        "https://api.nuget.org/v3/index.json": {},
-        "https://bams-amers-sami.int.thomsonreuters.com/artifactory/api/nuget/default.nuget.local/": {},
-        "https://bams-aws.refinitiv.com/artifactory/api/nuget/default.nuget.cloud": {}
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "netcoreapp2.1": {

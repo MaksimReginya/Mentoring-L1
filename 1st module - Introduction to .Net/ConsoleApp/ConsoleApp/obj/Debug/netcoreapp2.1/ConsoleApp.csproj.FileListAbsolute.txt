@@ -23,3 +23,15 @@ D:\Mentoring\github\Mentoring-L1\1st module - Introduction to .Net\ConsoleApp\Co
 D:\Mentoring\github\Mentoring-L1\1st module - Introduction to .Net\ConsoleApp\ConsoleApp\obj\Debug\netcoreapp2.1\ConsoleApp.csproj.CopyComplete
 D:\Mentoring\github\Mentoring-L1\1st module - Introduction to .Net\ConsoleApp\ConsoleApp\obj\Debug\netcoreapp2.1\ConsoleApp.dll
 D:\Mentoring\github\Mentoring-L1\1st module - Introduction to .Net\ConsoleApp\ConsoleApp\obj\Debug\netcoreapp2.1\ConsoleApp.pdb
+D:\Maksim\EPAM\MENTORING\1st module - Introduction to .Net\ConsoleApp\ConsoleApp\bin\Debug\netcoreapp2.1\ConsoleApp.deps.json
+D:\Maksim\EPAM\MENTORING\1st module - Introduction to .Net\ConsoleApp\ConsoleApp\bin\Debug\netcoreapp2.1\ConsoleApp.runtimeconfig.json
+D:\Maksim\EPAM\MENTORING\1st module - Introduction to .Net\ConsoleApp\ConsoleApp\bin\Debug\netcoreapp2.1\ConsoleApp.runtimeconfig.dev.json
+D:\Maksim\EPAM\MENTORING\1st module - Introduction to .Net\ConsoleApp\ConsoleApp\bin\Debug\netcoreapp2.1\ConsoleApp.dll
+D:\Maksim\EPAM\MENTORING\1st module - Introduction to .Net\ConsoleApp\ConsoleApp\bin\Debug\netcoreapp2.1\ConsoleApp.pdb
+D:\Maksim\EPAM\MENTORING\1st module - Introduction to .Net\ConsoleApp\ConsoleApp\obj\Debug\netcoreapp2.1\ConsoleApp.csprojAssemblyReference.cache
+D:\Maksim\EPAM\MENTORING\1st module - Introduction to .Net\ConsoleApp\ConsoleApp\obj\Debug\netcoreapp2.1\ConsoleApp.csproj.CoreCompileInputs.cache
+D:\Maksim\EPAM\MENTORING\1st module - Introduction to .Net\ConsoleApp\ConsoleApp\obj\Debug\netcoreapp2.1\ConsoleApp.AssemblyInfoInputs.cache
+D:\Maksim\EPAM\MENTORING\1st module - Introduction to .Net\ConsoleApp\ConsoleApp\obj\Debug\netcoreapp2.1\ConsoleApp.AssemblyInfo.cs
+D:\Maksim\EPAM\MENTORING\1st module - Introduction to .Net\ConsoleApp\ConsoleApp\obj\Debug\netcoreapp2.1\ConsoleApp.csproj.CopyComplete
+D:\Maksim\EPAM\MENTORING\1st module - Introduction to .Net\ConsoleApp\ConsoleApp\obj\Debug\netcoreapp2.1\ConsoleApp.dll
+D:\Maksim\EPAM\MENTORING\1st module - Introduction to .Net\ConsoleApp\ConsoleApp\obj\Debug\netcoreapp2.1\ConsoleApp.pdb
