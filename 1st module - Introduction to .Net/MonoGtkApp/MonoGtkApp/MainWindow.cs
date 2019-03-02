@@ -1,5 +1,6 @@
 ﻿using System;
 using Gtk;
+using StandartClassLibrary;
 
 public partial class MainWindow : Gtk.Window
 {
@@ -16,7 +17,14 @@ public partial class MainWindow : Gtk.Window
 
     protected void OnBtnHelloClicked(object sender, EventArgs e)
     {
-        MessageDialog messageDialog = new MessageDialog(this, DialogFlags.Modal, MessageType.Info, ButtonsType.Ok, "Hello, {0}!", this.entryName.Text);
+		string helloMessage = HelloBuilder.BuildHelloMessage(this.entryName.Text);
+
+        MessageDialog messageDialog = new MessageDialog(
+			this,
+			DialogFlags.Modal,
+			MessageType.Info,
+			ButtonsType.Ok,
+			helloMessage);
 
         messageDialog.Run();
         messageDialog.Destroy();
