@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Visitor;
 using NUnit.Framework;
-using System.IO;
+using Visitor;
 
 namespace FileSystemVisitorTests
 {
@@ -23,13 +20,12 @@ namespace FileSystemVisitorTests
 		}
 
 		[Test]
-		public void VisitDirectory_WhenEntriesAreEmpty_OnlyStartAndFinishEventsAreTriggered()
+		public void VisitDirectory_WhenCalled_StartAndFinishEventsAreTriggered()
 		{
 			// Arrange.
 			bool wasStartCalled = false, wasFinishCalled = false;
 			_visitor.Start += (object sender, EventArgs e) => wasStartCalled = true;
 			_visitor.Finish += (object sender, EventArgs e) => wasFinishCalled = true;
-			_baseDirectory += @"EmptyDirectory\";
 
 			// Act.
 			_visitor.VisitDirectory(_baseDirectory).ToList();
@@ -88,6 +84,36 @@ namespace FileSystemVisitorTests
 
 			// Assert.
 			Assert.AreEqual(0, result.Count);
+		}
+
+		[Test]
+		public void VisitDirectory_WhenExcludeFlagIsSet_FileOrDirectoryIsExcluded()
+		{
+			// Arrange.
+			_visitor.FileFinded += (object sender, FileSystemEntryArgs e) =>
+				e.Action = ActionType.Exclude;
+			_baseDirectory += @"DirectoryWithFile\";
+
+			// Act.
+			List<string> result = _visitor.VisitDirectory(_baseDirectory).ToList();
+
+			// Assert.
+			Assert.AreEqual(0, result.Count);
+		}
+
+		[Test]
+		public void VisitDirectory_WhenStopFlagIsSet_SearchStops()
+		{
+			// Arrange.
+			_visitor.FileFinded += (object sender, FileSystemEntryArgs e) =>
+				e.Action = ActionType.Stop;
+
+			// Act.
+			List<string> result = _visitor.VisitDirectory(_baseDirectory).ToList();
+
+			// Assert.
+			// Only 'DirectoryWithFile' was found, then search was stopped.
+			Assert.AreEqual(1, result.Count);
 		}
 	}
 }
