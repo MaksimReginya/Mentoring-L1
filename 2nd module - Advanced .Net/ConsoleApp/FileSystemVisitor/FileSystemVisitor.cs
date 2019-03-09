@@ -8,7 +8,7 @@ namespace Visitor
     {
 		private readonly Func<string, bool> _filter;
 
-		public event EventHandler Start, Finish;
+		public event EventHandler<EventArgs> Start, Finish;
 		public event EventHandler<FileSystemEntryArgs> FileFinded, DirectoryFinded, FilteredFileFinded, FilteredDirectoryFinded;
 
 		/// <summary>
@@ -22,90 +22,50 @@ namespace Visitor
 
 		public IEnumerable<string> VisitFolder(string path)
 		{
-			this.OnStart(new EventArgs());
+			this.OnEvent(this.Start, new EventArgs());
 
 			string[] entries = Directory.GetFileSystemEntries(path, "*", SearchOption.AllDirectories);
 
+			foreach (string entry in this.VisitFolder(entries))
+			{
+				yield return entry;
+			}
+
+			this.OnEvent(this.Finish, new EventArgs());
+		}
+
+		private IEnumerable<string> VisitFolder(string[] entries)
+		{
 			for (int i = 0; i < entries.Length; i++)
 			{
 				string entry = entries[i];
 				bool isDirectory = this.IsDirectory(entry);
+				string entryName = Path.GetFileName(entry);
+				ActionType action;
 
 				if (isDirectory)
 				{
-					this.OnDirectoryFinded(new FileSystemEntryArgs());
+					action = this.ProcessEntry(entry, entryName, this.DirectoryFinded, this.FilteredDirectoryFinded);
 				}
 				else
 				{
-					this.OnFileFinded(new FileSystemEntryArgs());
+					action = this.ProcessEntry(entry, entryName, this.FileFinded, this.FilteredFileFinded);
 				}
 
-				if (!_filter(entry))
+				if (action == ActionType.Stop)
 				{
-					if (isDirectory)
-					{
-						this.OnFilteredDirectoryFinded(new FileSystemEntryArgs());
-					}
-					else
-					{
-						this.OnFilteredFileFinded(new FileSystemEntryArgs());
-					}
-
+					yield break;
+				}
+				else if (action == ActionType.Continue)
+				{
 					yield return entry;
 				}
 			}
-
-			this.OnFinish(new EventArgs());
 		}
 
-		protected virtual void OnStart(EventArgs e)
+		protected virtual void OnEvent<T>(EventHandler<T> eventHandler, T e)
 		{
-			EventHandler tmp = Start;
-			if (tmp != null)
-			{
-				tmp(this, e);
-			}
-		}
-
-		protected virtual void OnFinish(EventArgs e)
-		{
-			EventHandler tmp = Finish;
-			if (tmp != null)
-			{
-				tmp(this, e);
-			}
-		}
-
-		protected virtual void OnFileFinded(FileSystemEntryArgs e)
-		{
-			EventHandler<FileSystemEntryArgs> tmp = FileFinded;
-			if (tmp != null)
-			{
-				tmp(this, e);
-			}
-		}
-
-		protected virtual void OnDirectoryFinded(FileSystemEntryArgs e)
-		{
-			EventHandler<FileSystemEntryArgs> tmp = DirectoryFinded;
-			if (tmp != null)
-			{
-				tmp(this, e);
-			}
-		}
-
-		protected virtual void OnFilteredFileFinded(FileSystemEntryArgs e)
-		{
-			EventHandler<FileSystemEntryArgs> tmp = FilteredFileFinded;
-			if (tmp != null)
-			{
-				tmp(this, e);
-			}
-		}
-
-		protected virtual void OnFilteredDirectoryFinded(FileSystemEntryArgs e)
-		{
-			EventHandler<FileSystemEntryArgs> tmp = FilteredDirectoryFinded;
+			EventHandler<T> tmp = eventHandler;
 			if (tmp != null)
 			{
 				tmp(this, e);
@@ -117,6 +77,29 @@ namespace Visitor
 			FileAttributes attr = File.GetAttributes(path);
 
 			return attr.HasFlag(FileAttributes.Directory);
+		}
+
+		private ActionType ProcessEntry(
+			string entry,
+			string entryName,
+			EventHandler<FileSystemEntryArgs> findHandler,
+			EventHandler<FileSystemEntryArgs> filteredFindHandler)
+		{
+			FileSystemEntryArgs e = new FileSystemEntryArgs(entryName);
+			this.OnEvent(findHandler, e);
+
+			if (e.Action != ActionType.Continue)
+			{
+				return e.Action;
+			}
+
+			if (!_filter(entry))
+			{
+				this.OnEvent(filteredFindHandler, e);
+				return e.Action;
+			}
+
+			return ActionType.Exclude;
 		}
 	}
 }

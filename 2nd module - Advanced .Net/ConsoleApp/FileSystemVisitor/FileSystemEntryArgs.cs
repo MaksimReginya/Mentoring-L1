@@ -4,14 +4,14 @@ namespace Visitor
 {
 	public class FileSystemEntryArgs : EventArgs
 	{
-		public bool IsBreakSearch { get; internal set; }
+		public ActionType Action { get; set; }
 
-		public bool IsEntryExcluded { get; internal set; }
+		public string EntryName { get; internal set; }
 
-		public FileSystemEntryArgs(bool isBreakSearch = false, bool isEntryExcluded = false)
+		public FileSystemEntryArgs(string name, ActionType action = ActionType.Continue)
 		{
-			this.IsBreakSearch = isBreakSearch;
-			this.IsEntryExcluded = isEntryExcluded;
+			this.EntryName = name;
+			this.Action = action;
 		}
 	}
 }
