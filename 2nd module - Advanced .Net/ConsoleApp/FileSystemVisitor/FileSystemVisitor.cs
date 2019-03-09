@@ -11,22 +11,19 @@ namespace Visitor
 		public event EventHandler<EventArgs> Start, Finish;
 		public event EventHandler<FileSystemEntryArgs> FileFinded, DirectoryFinded, FilteredFileFinded, FilteredDirectoryFinded;
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="filter">filter must return <see cref="true"/> if file/folder should be filtered.</param>
+		/// <param name="filter">filter must return <see cref="true"/> if file/directory should be excluded.</param>
 		public FileSystemVisitor(Func<string, bool> filter = null)
 		{
 			_filter = filter ?? ((string path) => false);
 		}
 
-		public IEnumerable<string> VisitFolder(string path)
+		public IEnumerable<string> VisitDirectory(string path)
 		{
 			this.OnEvent(this.Start, new EventArgs());
 
 			string[] entries = Directory.GetFileSystemEntries(path, "*", SearchOption.AllDirectories);
 
-			foreach (string entry in this.VisitFolder(entries))
+			foreach (string entry in this.ProcessEntries(entries))
 			{
 				yield return entry;
 			}
@@ -34,7 +31,22 @@ namespace Visitor
 			this.OnEvent(this.Finish, new EventArgs());
 		}
 
-		private IEnumerable<string> VisitFolder(string[] entries)
+		protected virtual void OnEvent<T>(EventHandler<T> eventHandler, T eventArgs)
+		{
+			eventHandler?.Invoke(this, eventArgs);
+		}
+
+		private bool IsDirectory(string path)
+		{
+			if (Directory.Exists(path))
+			{
+				return true;
+			}
+
+			return false;
+		}
+
+		private IEnumerable<string> ProcessEntries(string[] entries)
 		{
 			for (int i = 0; i < entries.Length; i++)
 			{
@@ -61,22 +73,6 @@ namespace Visitor
 					yield return entry;
 				}
 			}
-		}
-
-		protected virtual void OnEvent<T>(EventHandler<T> eventHandler, T e)
-		{
-			EventHandler<T> tmp = eventHandler;
-			if (tmp != null)
-			{
-				tmp(this, e);
-			}
-		}
-
-		private bool IsDirectory(string path)
-		{
-			FileAttributes attr = File.GetAttributes(path);
-
-			return attr.HasFlag(FileAttributes.Directory);
 		}
 
 		private ActionType ProcessEntry(

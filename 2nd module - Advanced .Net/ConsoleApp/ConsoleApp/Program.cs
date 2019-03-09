@@ -19,7 +19,7 @@ namespace ConsoleApp
 				// Custom logic for excluding file system entry.
 				if (e.EntryName.Length > 7)
 				{
-					Console.WriteLine($"Excluding {e.EntryName} folder from search");
+					Console.WriteLine($"Excluding {e.EntryName} Directory from search");
 					e.Action = ActionType.Exclude;
 				}
 			};
@@ -37,7 +37,7 @@ namespace ConsoleApp
 			visitor.FilteredDirectoryFinded += (object sender, FileSystemEntryArgs e) =>
 				Console.WriteLine($"FilteredDirectoryFinded event: {e.EntryName}");
 
-			foreach (string entry in visitor.VisitFolder(args[0]))
+			foreach (string entry in visitor.VisitDirectory(args[0]))
 			{
 				Console.WriteLine(entry);
 			}
