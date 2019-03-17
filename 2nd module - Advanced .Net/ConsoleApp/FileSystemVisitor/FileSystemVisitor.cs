@@ -23,9 +23,9 @@ namespace Visitor
 
 		public IEnumerable<string> VisitDirectory(string path)
 		{
-			if (path == null)
+			if (string.IsNullOrEmpty(path))
 			{
-				throw new ArgumentNullException(nameof(path), $"{nameof(path)} cannot be null");
+				throw new ArgumentNullException(nameof(path), $"{nameof(path)} cannot be null or empty");
 			}
 
 			this.OnEvent(this.Start, new EventArgs());
