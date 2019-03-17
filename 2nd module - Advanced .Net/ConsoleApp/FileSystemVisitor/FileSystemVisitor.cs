@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using NLog;
 
 namespace Visitor
 {
@@ -11,17 +12,34 @@ namespace Visitor
 		public event EventHandler<EventArgs> Start, Finish;
 		public event EventHandler<FileSystemEntryArgs> FileFinded, DirectoryFinded, FilteredFileFinded, FilteredDirectoryFinded;
 
+		public ILogger Logger { get; set; }
+
 		/// <param name="filter">filter must return <see cref="true"/> if file/directory should be excluded.</param>
 		public FileSystemVisitor(Func<string, bool> filter = null)
 		{
 			_filter = filter ?? ((string path) => false);
+			this.Logger = LogManager.GetCurrentClassLogger();
 		}
 
 		public IEnumerable<string> VisitDirectory(string path)
 		{
+			if (path == null)
+			{
+				throw new ArgumentNullException(nameof(path), $"{nameof(path)} cannot be null");
+			}
+
 			this.OnEvent(this.Start, new EventArgs());
 
-			string[] entries = Directory.GetFileSystemEntries(path, "*", SearchOption.AllDirectories);
+			string[] entries;
+			try
+			{
+				entries = Directory.GetFileSystemEntries(path, "*", SearchOption.AllDirectories);
+			}
+			catch (DirectoryNotFoundException ex)
+			{
+				this.Logger.Error(ex, "Specified directory doesn't exist.");
+				throw;
+			}
 
 			foreach (string entry in this.ProcessEntries(entries))
 			{
@@ -33,7 +51,15 @@ namespace Visitor
 
 		protected virtual void OnEvent<T>(EventHandler<T> eventHandler, T eventArgs)
 		{
-			eventHandler?.Invoke(this, eventArgs);
+			try
+			{
+				eventHandler?.Invoke(this, eventArgs);
+			}
+			catch (Exception ex)
+			{
+				// We don't want an event envocation to terminate the app, so log and swallow the exception.
+				this.Logger.Error(ex, "An error during event envocation occured.");
+			}
 		}
 
 		private bool IsDirectory(string path)
@@ -43,7 +69,12 @@ namespace Visitor
 				return true;
 			}
 
-			return false;
+			if (File.Exists(path))
+			{
+				return false;
+			}
+
+			throw new FileSystemEntryNotFoundException(path);
 		}
 
 		private IEnumerable<string> ProcessEntries(string[] entries)
@@ -51,7 +82,17 @@ namespace Visitor
 			for (int i = 0; i < entries.Length; i++)
 			{
 				string entry = entries[i];
-				bool isDirectory = this.IsDirectory(entry);
+				bool isDirectory = false;
+				try
+				{
+					isDirectory = this.IsDirectory(entry);
+				}
+				catch (FileSystemEntryNotFoundException ex)
+				{
+					this.Logger.Error(ex, $"File system entry not found: {ex.FileSystemEntryPath}");
+					continue;
+				}
+
 				string entryName = Path.GetFileName(entry);
 				ActionType action;
 

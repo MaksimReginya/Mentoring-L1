@@ -11,7 +11,11 @@ namespace ConsoleApp
 
 			visitor.Start += (object sender, EventArgs e) => Console.WriteLine("Start event");
 			visitor.Finish += (object sender, EventArgs e) => Console.WriteLine("Finish event");
-			visitor.FileFinded += (object sender, FileSystemEntryArgs e) => Console.WriteLine($"FileFinded event: {e.EntryName}");
+			visitor.FileFinded += (object sender, FileSystemEntryArgs e) =>
+			{
+				Console.WriteLine($"FileFinded event: {e.EntryName}");
+				throw new Exception("Boom!");
+			};
 			visitor.DirectoryFinded += (object sender, FileSystemEntryArgs e) =>
 			{
 				Console.WriteLine($"DirectoryFinded event: {e.EntryName}");

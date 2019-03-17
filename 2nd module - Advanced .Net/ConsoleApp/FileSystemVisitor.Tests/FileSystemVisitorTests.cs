@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using Moq;
+using NLog;
 using NUnit.Framework;
 using Visitor;
 
@@ -11,12 +14,15 @@ namespace FileSystemVisitorTests
 	{
 		private string _baseDirectory;
 		private FileSystemVisitor _visitor;
+		private Mock<ILogger> _loggerMock;
 
 		[SetUp]
 		public void Initialize()
 		{
 			_baseDirectory = AppDomain.CurrentDomain.BaseDirectory + @"..\..\FakeDirectory\";
 			_visitor = new FileSystemVisitor();
+			_loggerMock = new Mock<ILogger>();
+			_visitor.Logger = _loggerMock.Object;
 		}
 
 		[Test]
@@ -76,7 +82,7 @@ namespace FileSystemVisitorTests
 		public void VisitDirectory_WhenFilterIsSet_FilesAndDirectoriesAreFiltered()
 		{
 			// Arrange.
-			Func<string, bool> filter = (string path) => true;
+			bool filter(string path) => true;
 			_visitor = new FileSystemVisitor(filter);
 
 			// Act.
@@ -114,6 +120,41 @@ namespace FileSystemVisitorTests
 			// Assert.
 			// Only 'DirectoryWithFile' was found, then search was stopped.
 			Assert.AreEqual(1, result.Count);
+		}
+
+		[Test]
+		public void VisitDirectory_WhenExceptionHappensInEvent_ExceptionIsLogged()
+		{
+			// Arrange.
+			Exception expectedException = new Exception();
+			_visitor.FileFinded += (object sender, FileSystemEntryArgs e) =>
+				throw expectedException;
+
+			// Act.
+			_visitor.VisitDirectory(_baseDirectory).ToList();
+
+			// Verify.
+			_loggerMock.Verify(mock => mock.Error(expectedException, It.IsAny<string>()), Times.Once());
+		}
+
+		[Test]
+		public void VisitDirectory_WhenDirectoryDoesNotExists_ExceptionIsThrownAndLogged()
+		{
+			// Arrange.
+			_baseDirectory += @"NonExistingDirectory\";
+
+			// Act and Assert.
+			Assert.Throws<DirectoryNotFoundException>(() => _visitor.VisitDirectory(_baseDirectory).ToList());
+			_loggerMock.Verify(mock => mock.Error(
+				It.IsAny<DirectoryNotFoundException>(),
+				It.IsAny<string>()), Times.Once());
+		}
+
+		[Test]
+		public void VisitDirectory_WhenPathIsNull_ArgumentNullExceptionIsThrown()
+		{
+			// Act and Assert.
+			Assert.Throws<ArgumentNullException>(() => _visitor.VisitDirectory(null).ToList());
 		}
 	}
 }
