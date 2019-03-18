@@ -25,7 +25,10 @@ namespace Visitor
 		{
 			if (string.IsNullOrEmpty(path))
 			{
-				throw new ArgumentNullException(nameof(path), $"{nameof(path)} cannot be null or empty");
+				ArgumentNullException ex = new ArgumentNullException(nameof(path), $"{nameof(path)} cannot be null or empty");
+				this.Logger.Error(ex, "An error during event invocation occured.");
+
+				throw ex;
 			}
 
 			this.OnEvent(this.Start, new EventArgs());
@@ -58,7 +61,7 @@ namespace Visitor
 			catch (Exception ex)
 			{
 				// We don't want an event envocation to terminate the app, so log and swallow the exception.
-				this.Logger.Error(ex, "An error during event envocation occured.");
+				this.Logger.Error(ex, "An error during event invocation occured.");
 			}
 		}
 

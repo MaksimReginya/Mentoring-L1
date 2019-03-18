@@ -155,6 +155,10 @@ namespace FileSystemVisitorTests
 		{
 			// Act and Assert.
 			Assert.Throws<ArgumentNullException>(() => _visitor.VisitDirectory(null).ToList());
+
+			_loggerMock.Verify(mock => mock.Error(
+				It.IsAny<ArgumentNullException>(),
+				It.IsAny<string>()), Times.Once());
 		}
 	}
 }
