@@ -1,55 +1,96 @@
 ﻿using System;
+using NLog;
 
-namespace NumberParser
+namespace Parser
 {
-    public static class NumberParser
+	public class NumberParser
 	{
-		public static int ConvertToNumber(this string number)
+		public ILogger Logger { get; set; }
+
+		public NumberParser()
+		{
+			this.Logger = LogManager.GetCurrentClassLogger();
+		}
+
+		public int ConvertToNumber(string number)
 		{
 			if (string.IsNullOrEmpty(number))
 			{
-				throw new ArgumentNullException(nameof(number), $"{nameof(number)} cannot be null or empty");
+				ArgumentNullException ex = new ArgumentNullException(nameof(number), $"{nameof(number)} cannot be null or empty");
+				this.Logger.Error(ex, ex.Message);
+
+				throw ex;
 			}
 
 			char[] digits = number.ToCharArray();
-			int result = 0, i = 0;
-			if (digits.Length == 1)
+			int result = 0, i = 0, numberLength = digits.Length;
+			if (numberLength == 1)
 			{
-				ValidateDigit(digits[0]);
-				result = digits[0] - '0';
+				this.ValidateDigit(digits[0]);
+				result = this.CharToInt(digits[0]);
+
+				return result;
 			}
 
-			bool isNegative = IsNegative(digits[0]);
+			bool isNegative = this.IsNegative(number);
 			if (isNegative)
 			{
 				i = 1;
 			}
 
-			for (; i < digits.Length; i++)
+			for (; i < numberLength; i++)
 			{
-				ValidateDigit(digits[i]);
-				int temp = digits[i] - '0';
+				this.ValidateDigit(digits[i]);
+				int temp = this.CharToInt(digits[i]);
 				if (temp != 0)
 				{
-					result += temp * (int)Math.Pow(10, (digits.Length - (i + 1)));
+					result += this.ProcessNextDigit(temp, numberLength, i); 
 				}
 			}
 
 			return isNegative ? -result : result;
 		}
 
-		private static void ValidateDigit(char el)
+		private int ProcessNextDigit(int digit, int numberLength, int index)
+		{
+			int result;
+
+			try
+			{
+				checked
+				{
+					result = digit * (int)Math.Pow(10, numberLength - (index + 1));
+				}
+			}
+			catch (OverflowException ex)
+			{
+				this.Logger.Error(ex, "Provided number is out of Int32 range.");
+
+				throw;
+			}
+
+			return result;
+		}
+
+		private void ValidateDigit(char el)
 		{
 			if (!char.IsDigit(el))
 			{
-				throw new FormatException();
+				FormatException ex = new FormatException("Provided string is not a valid integer.");
+				this.Logger.Error(ex, ex.Message);
+
+				throw ex;
 			}
 		}
 
-		private static bool IsNegative(char el)
+		private bool IsNegative(string number)
 		{
-			return '-'.Equals(el);
+			return '-'.Equals(number[0]);
 		}
 
+		private int CharToInt(char el)
+		{
+			return el - '0';
+		}
 	}
 }
