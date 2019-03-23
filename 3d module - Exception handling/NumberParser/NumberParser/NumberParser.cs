@@ -42,24 +42,21 @@ namespace Parser
 			{
 				this.ValidateDigit(digits[i]);
 				int temp = this.CharToInt(digits[i]);
-				if (temp != 0)
-				{
-					result += this.ProcessNextDigit(temp, numberLength, i); 
-				}
+
+				result = this.ProcessNextDigit(temp, result, i);
+				result += temp;
 			}
 
 			return isNegative ? -result : result;
 		}
 
-		private int ProcessNextDigit(int digit, int numberLength, int index)
+		private int ProcessNextDigit(int digit, int current, int index)
 		{
-			int result;
-
 			try
 			{
 				checked
 				{
-					result = digit * (int)Math.Pow(10, numberLength - (index + 1));
+					current *= 10;
 				}
 			}
 			catch (OverflowException ex)
@@ -69,7 +66,7 @@ namespace Parser
 				throw;
 			}
 
-			return result;
+			return current;
 		}
 
 		private void ValidateDigit(char el)
