@@ -22,44 +22,32 @@ namespace SampleQueries
 		private DataSource dataSource = new DataSource();
 
 		[Category("Restriction Operators")]
-		[Title("Where - Task 2")]
-		[Description("This sample return return all presented in market products")]
-
-		public void Linq2()
-		{
-			var products =
-				from p in dataSource.Products
-				where p.UnitsInStock > 0
-				select p;
-
-			foreach (var p in products)
-			{
-				ObjectDumper.Write(p);
-			}
-		}
-
-		[Category("Restriction Operators")]
 		[Title("Where - Task 001")]
 		[Description("This sample finds all customers whose total turnover exceeds a certain value X.")]
 		public void Linq001()
 		{
 			decimal X = 55500;
 
-			IEnumerable<Customer> customers = dataSource.Customers.Where(
-				(customer) => customer.Orders.Sum((order) => order.Total) > X);
+			var customers = dataSource.Customers
+				.Where(customer => customer.Orders.Sum(order => order.Total) > X)
+				.Select(_ => new
+				{
+					_.CustomerID,
+					TotalOrdersSum = _.Orders.Sum(order => order.Total)
+				});
 
 			Console.WriteLine($"------------------------------------X = {X}-------------------------------------------------");
-			foreach (Customer customer in customers)
+			foreach (var customer in customers)
 			{
-				ObjectDumper.Write(customer);
+				Console.Write($"CustomerID: {customer.CustomerID}, TotalOrdersSum: {customer.TotalOrdersSum}");
 			}
 
 			X = 35500;
 			Console.WriteLine($"------------------------------------X = {X}-------------------------------------------------");
 
-			foreach (Customer customer in customers)
+			foreach (var customer in customers)
 			{
-				ObjectDumper.Write(customer);
+				Console.Write($"CustomerID: {customer.CustomerID}, TotalOrdersSum: {customer.TotalOrdersSum}");
 			}
 
 			Console.WriteLine("-------------------------------------------------------------------------------------");
@@ -78,45 +66,72 @@ namespace SampleQueries
 				(_customer, _suppliers) => new
 				{
 					_customer.CustomerID,
-					Suppliers = _suppliers.Select(_s => _s.SupplierName)
+					_customer.City,
+					_customer.Country,
+					Suppliers = _suppliers.Select(_s => new { _s.SupplierName, _s.City, _s.Country })
 				});
 
 			foreach (var customer in customersWithSuppliers)
 			{
-				Console.WriteLine(customer.CustomerID);
+				Console.WriteLine($"CustomerID: {customer.CustomerID}, City: {customer.City}, Country: {customer.Country}");
 
-				foreach (string supplier in customer.Suppliers)
+				foreach (var supplier in customer.Suppliers)
 				{
-					Console.WriteLine(supplier);
+					Console.WriteLine($"SupplierName: {supplier.SupplierName}, City: {supplier.City}, Country: {supplier.Country}");
 				}
 
-				Console.WriteLine();
+				Console.WriteLine("-------------------------------------------------------------------------------------");
 			}
 
-			Console.WriteLine("-------------------------------------------------------------------------------------");
+			Console.WriteLine("**************************************************************************************");
 
 			// Without grouping
 			var customersWithSuppliers1 = dataSource.Customers.Select(
 				customer => new
 				{
 					customer.CustomerID,
-					SupplierNames = dataSource.Suppliers
+					customer.City,
+					customer.Country,
+					Suppliers = dataSource.Suppliers
 								.Where(supplier => 
 											supplier.City.Equals(customer.City, StringComparison.OrdinalIgnoreCase)
 											&& supplier.Country.Equals(customer.Country, StringComparison.OrdinalIgnoreCase))
-								.Select(supplier => supplier.SupplierName)
+								.Select(supplier => new { supplier.SupplierName, supplier.City, supplier.Country })
 				});
 
 			foreach (var customer in customersWithSuppliers1)
 			{
-				Console.WriteLine(customer.CustomerID);
+				Console.WriteLine($"CustomerID: {customer.CustomerID}, City: {customer.City}, Country: {customer.Country}");
 
-				foreach (string supplierName in customer.SupplierNames)
+				foreach (var supplier in customer.Suppliers)
 				{
-					Console.WriteLine(supplierName);
+					Console.WriteLine($"SupplierName: {supplier.SupplierName}, City: {supplier.City}, Country: {supplier.Country}");
 				}
 
-				Console.WriteLine();
+				Console.WriteLine("-------------------------------------------------------------------------------------");
+			}
+		}
+
+		[Category("Quantifiers")]
+		[Title("Any - Task 003")]
+		[Description("This sample finds all customers who has orders with total greater than X.")]
+		public void Linq003()
+		{
+			decimal X = 10000;
+			IEnumerable<Customer> customers = dataSource.Customers
+				.Where(customer => customer.Orders.Any(order => order.Total > X));
+
+			Console.WriteLine($"X: {X}");
+			foreach (Customer customer in customers)
+			{
+				Console.WriteLine($"CustomerID: {customer.CustomerID}");
+
+				foreach (Order order in customer.Orders.OrderByDescending(order => order.Total))
+				{
+					Console.WriteLine($"OrderID: {order.OrderID}, Total: {order.Total}");
+				}
+
+				Console.WriteLine("-------------------------------------------------------------------------------------");
 			}
 		}
 	}
