@@ -219,7 +219,7 @@ namespace SampleQueries
 						.Select(inStockGroup => new
 						{
 							AreUnitsInStock = inStockGroup.Key,
-							Products = inStockGroup.OrderBy(prod => prod.UnitPrice)
+							Products = inStockGroup.OrderBy(product => product.UnitPrice)
 						})
 				});
 
@@ -245,8 +245,8 @@ namespace SampleQueries
 			decimal cheapBorder = 20, expensiveBorder = 40;
 
 			var productGroups = dataSource.Products
-				.GroupBy(p => p.UnitPrice < cheapBorder ? "Cheap"
-					: p.UnitPrice < expensiveBorder ? "Average" : "Expensive");
+				.GroupBy(product => product.UnitPrice < cheapBorder ? "Cheap"
+					: product.UnitPrice < expensiveBorder ? "Average" : "Expensive");
 
 			foreach (var productsGroup in productGroups)
 			{
@@ -254,6 +254,70 @@ namespace SampleQueries
 				foreach (var product in productsGroup)
 				{
 					Console.WriteLine($"\tProduct name: {product.ProductName}, Unit price: {product.UnitPrice}");
+				}
+			}
+		}
+
+		[Category("Task")]
+		[Title("Task 009")]
+		[Description("This sample groups all customers by City and finds average Intensity and Profitability.")]
+		public void Linq009()
+		{
+			var customerGroups = dataSource.Customers
+				.GroupBy(customer => customer.City)
+				.Select(group => new
+				{
+					City = group.Key,
+					Profitability = group.Average(product => product.Orders.Sum(o => o.Total)),
+					Intensity = group.Average(product => product.Orders.Length)
+				});
+
+			foreach (var customersGroup in customerGroups)
+			{
+				Console.WriteLine(
+					$"City: {customersGroup.City}, " +
+					$"Profitability: {Math.Round(customersGroup.Profitability, 2)}, " +
+					$"Intensity: {Math.Round(customersGroup.Intensity, 2)}");
+			}
+		}
+
+		[Category("Task")]
+		[Title("Task 010")]
+		[Description("This sample groups all customers by statistic for 'Month', 'Year', 'Month and Year'.")]
+		public void Linq010()
+		{
+			var customerGroups = dataSource.Customers
+				.Select(customer => new
+				{
+					customer.CustomerID,
+					StatForMonths = customer.Orders
+										.GroupBy(order => order.OrderDate.Month)
+										.Select(group => new { Month = group.Key, OrdersCount = group.Count() }),
+					StatForYears = customer.Orders
+										.GroupBy(order => order.OrderDate.Year)
+										.Select(group => new { Year = group.Key, OrdersCount = group.Count() }),
+					StatForMonthsAndYears = customer.Orders
+										.GroupBy(order => new { order.OrderDate.Year, order.OrderDate.Month })
+										.Select(group => new { group.Key.Year, group.Key.Month, OrdersCount = group.Count() })
+				});
+
+			foreach (var customer in customerGroups)
+			{
+				Console.WriteLine($"CustomerID: {customer.CustomerID}");
+				Console.WriteLine("\tStatistic for months:");
+				foreach (var monthStat in customer.StatForMonths)
+				{
+					Console.WriteLine($"\t\tMonth: {monthStat.Month}, Orders count: {monthStat.OrdersCount}");
+				}
+				Console.WriteLine("\tStatistic for years:");
+				foreach (var yearStat in customer.StatForYears)
+				{
+					Console.WriteLine($"\t\tYear: {yearStat.Year}, Orders count: {yearStat.OrdersCount}");
+				}
+				Console.WriteLine("\tStatistic for months and years:");
+				foreach (var monthYearStat in customer.StatForMonthsAndYears)
+				{
+					Console.WriteLine($"\t\tMonth: {monthYearStat.Month}, Year: {monthYearStat.Year}, Orders count: {monthYearStat.OrdersCount}");
 				}
 			}
 		}
