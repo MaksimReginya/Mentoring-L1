@@ -207,7 +207,7 @@ namespace SampleQueries
 
 		[Category("Task")]
 		[Title("Task 007")]
-		[Description("This sample groups all product by categories, then groups by existing units in stock, then sorts by price.")]
+		[Description("This sample groups all products by categories, then groups by existing units in stock, then sorts by price.")]
 		public void Linq007()
 		{
 			var productGroups = dataSource.Products
@@ -233,6 +233,27 @@ namespace SampleQueries
 					{
 						Console.WriteLine($"\t\tProduct name: {product.ProductName}, Unit price: {product.UnitPrice}");
 					}
+				}
+			}
+		}
+
+		[Category("Task")]
+		[Title("Task 008")]
+		[Description("This sample groups all products by Cheap, Average and Expensive prices.")]
+		public void Linq008()
+		{
+			decimal cheapBorder = 20, expensiveBorder = 40;
+
+			var productGroups = dataSource.Products
+				.GroupBy(p => p.UnitPrice < cheapBorder ? "Cheap"
+					: p.UnitPrice < expensiveBorder ? "Average" : "Expensive");
+
+			foreach (var productsGroup in productGroups)
+			{
+				Console.WriteLine($"{productsGroup.Key} products:");
+				foreach (var product in productsGroup)
+				{
+					Console.WriteLine($"\tProduct name: {product.ProductName}, Unit price: {product.UnitPrice}");
 				}
 			}
 		}
