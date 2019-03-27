@@ -21,8 +21,8 @@ namespace SampleQueries
 
 		private DataSource dataSource = new DataSource();
 
-		[Category("Restriction Operators")]
-		[Title("Where - Task 001")]
+		[Category("Task")]
+		[Title("Task 001")]
 		[Description("This sample finds all customers whose total turnover exceeds a certain value X.")]
 		public void Linq001()
 		{
@@ -53,8 +53,8 @@ namespace SampleQueries
 			Console.WriteLine("-------------------------------------------------------------------------------------");
 		}
 
-		[Category("Grouping and Projection Operators")]
-		[Title("GroupJoin and Select - Task 002")]
+		[Category("Task")]
+		[Title("Task 002")]
 		[Description("This sample for each customer finds all suppliers who live in the same country and city.")]
 		public void Linq002()
 		{
@@ -112,8 +112,8 @@ namespace SampleQueries
 			}
 		}
 
-		[Category("Quantifiers")]
-		[Title("Any - Task 003")]
+		[Category("Task")]
+		[Title("Task 003")]
 		[Description("This sample finds all customers who have orders with 'Total' greater than X.")]
 		public void Linq003()
 		{
@@ -135,26 +135,55 @@ namespace SampleQueries
 			}
 		}
 
-		[Category("Projection operators")]
-		[Title("Select - Task 004")]
+		[Category("Task")]
+		[Title("Task 004")]
 		[Description("This sample finds all customers with their first order month and year.")]
 		public void Linq004()
 		{
 			var customers = dataSource.Customers
+				.Where(customer => customer.Orders.Any())
 				.Select(customer => new
 				{
 					customer.CustomerID,
-					FirstOrder = customer.Orders
+					FirstOrderDate = customer.Orders
 						.OrderBy(order => order.OrderDate)
-						.FirstOrDefault()
+						.Select(order => order.OrderDate)
+						.First()
 				});
 
 			foreach (var customer in customers)
 			{
-				string firstOrderDate = customer.FirstOrder != null 
-					? $"First order date: {customer.FirstOrder.OrderDate.ToString("m")}"
-					: "Customer doesn't have orders.";
-				Console.WriteLine($"CustomerID: {customer.CustomerID}, {firstOrderDate}");
+				Console.WriteLine($"CustomerID: {customer.CustomerID}, Year: {customer.FirstOrderDate.Year}, Month: {customer.FirstOrderDate.Month}");
+			}
+		}
+
+		[Category("Task")]
+		[Title("Task 005")]
+		[Description("This sample finds all customers with their first order month and year (sorted by Year, Month, TotalSum (desc), CustomerID).")]
+		public void Linq005()
+		{
+			var customers = dataSource.Customers
+				.Where(customer => customer.Orders.Any())
+				.Select(customer => new
+				{
+					customer.CustomerID,
+					FirstOrderDate = customer.Orders
+						.OrderBy(order => order.OrderDate)
+						.Select(order => order.OrderDate)
+						.First(),
+					TotalSum = customer.Orders.Sum(order => order.Total)
+				})
+				.OrderBy(customer => customer.FirstOrderDate.Year)
+				.ThenBy(customer => customer.FirstOrderDate.Month)
+				.ThenByDescending(customer => customer.TotalSum)
+				.ThenBy(customer => customer.CustomerID);
+
+			foreach (var customer in customers)
+			{
+				Console.WriteLine($"CustomerID: {customer.CustomerID}," +
+					$" Year: {customer.FirstOrderDate.Year}," +
+					$" Month: {customer.FirstOrderDate.Month}" +
+					$" TotalSum: {customer.TotalSum}");
 			}
 		}
 	}
