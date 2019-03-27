@@ -114,7 +114,7 @@ namespace SampleQueries
 
 		[Category("Quantifiers")]
 		[Title("Any - Task 003")]
-		[Description("This sample finds all customers who has orders with total greater than X.")]
+		[Description("This sample finds all customers who have orders with 'Total' greater than X.")]
 		public void Linq003()
 		{
 			decimal X = 10000;
@@ -132,6 +132,29 @@ namespace SampleQueries
 				}
 
 				Console.WriteLine("-------------------------------------------------------------------------------------");
+			}
+		}
+
+		[Category("Projection operators")]
+		[Title("Select - Task 004")]
+		[Description("This sample finds all customers with their first order month and year.")]
+		public void Linq004()
+		{
+			var customers = dataSource.Customers
+				.Select(customer => new
+				{
+					customer.CustomerID,
+					FirstOrder = customer.Orders
+						.OrderBy(order => order.OrderDate)
+						.FirstOrDefault()
+				});
+
+			foreach (var customer in customers)
+			{
+				string firstOrderDate = customer.FirstOrder != null 
+					? $"First order date: {customer.FirstOrder.OrderDate.ToString("m")}"
+					: "Customer doesn't have orders.";
+				Console.WriteLine($"CustomerID: {customer.CustomerID}, {firstOrderDate}");
 			}
 		}
 	}
