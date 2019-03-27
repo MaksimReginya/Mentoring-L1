@@ -186,5 +186,23 @@ namespace SampleQueries
 					$" TotalSum: {customer.TotalSum}");
 			}
 		}
+
+		[Category("Task")]
+		[Title("Task 006")]
+		[Description("This sample finds all customers with 'non-numeric postal code' OR 'empty region' OR 'phone without operator code'.")]
+		public void Linq006()
+		{
+			var customers = dataSource.Customers
+				.Where(customer =>
+					!int.TryParse(customer.PostalCode, out var res)
+					|| string.IsNullOrEmpty(customer.Region)
+					|| !customer.Phone.StartsWith("("));
+				
+
+			foreach (var c in customers)
+			{
+				Console.WriteLine($"CustomerID: {c.CustomerID}, Region: {c.Region ?? "<empty>"}, PostalCode: {c.PostalCode}, Phone: {c.Phone}");
+			}
+		}
 	}
 }
