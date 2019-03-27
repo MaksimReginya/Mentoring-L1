@@ -204,5 +204,37 @@ namespace SampleQueries
 				Console.WriteLine($"CustomerID: {c.CustomerID}, Region: {c.Region ?? "<empty>"}, PostalCode: {c.PostalCode}, Phone: {c.Phone}");
 			}
 		}
+
+		[Category("Task")]
+		[Title("Task 007")]
+		[Description("This sample groups all product by categories, then groups by existing units in stock, then sorts by price.")]
+		public void Linq007()
+		{
+			var productGroups = dataSource.Products
+				.GroupBy(product => product.Category)
+				.Select(group => new
+				{
+					Category = group.Key,
+					ProductsInStock = group.GroupBy(product => product.UnitsInStock > 0)
+						.Select(inStockGroup => new
+						{
+							AreUnitsInStock = inStockGroup.Key,
+							Products = inStockGroup.OrderBy(prod => prod.UnitPrice)
+						})
+				});
+
+			foreach (var productsGroup in productGroups)
+			{
+				Console.WriteLine($"Category: {productsGroup.Category}");
+				foreach (var productsInStock in productsGroup.ProductsInStock)
+				{
+					Console.WriteLine($"\tAre units in stock: {productsInStock.AreUnitsInStock}");
+					foreach (var product in productsInStock.Products)
+					{
+						Console.WriteLine($"\t\tProduct name: {product.ProductName}, Unit price: {product.UnitPrice}");
+					}
+				}
+			}
+		}
 	}
 }
