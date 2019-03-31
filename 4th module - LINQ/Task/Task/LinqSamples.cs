@@ -146,9 +146,7 @@ namespace SampleQueries
 				{
 					customer.CustomerID,
 					FirstOrderDate = customer.Orders
-						.OrderBy(order => order.OrderDate)
-						.Select(order => order.OrderDate)
-						.First()
+						.Min(order => order.OrderDate)
 				});
 
 			foreach (var customer in customers)
@@ -168,9 +166,7 @@ namespace SampleQueries
 				{
 					customer.CustomerID,
 					FirstOrderDate = customer.Orders
-						.OrderBy(order => order.OrderDate)
-						.Select(order => order.OrderDate)
-						.First(),
+						.Min(order => order.OrderDate),
 					TotalSum = customer.Orders.Sum(order => order.Total)
 				})
 				.OrderBy(customer => customer.FirstOrderDate.Year)
