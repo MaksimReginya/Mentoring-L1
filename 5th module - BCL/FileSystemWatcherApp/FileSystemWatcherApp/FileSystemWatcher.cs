@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
+using IODirectory = System.IO.Directory;
 using FileSystemWatcherApp.Configuration;
 
 namespace FileSystemWatcherApp
@@ -8,11 +8,13 @@ namespace FileSystemWatcherApp
 	public class FileSystemWatcher
 	{
 		private readonly FileSystemWatcherHelper _watcherHelper;
-		public event EventHandler<FileCreatedEventArgs> FileCreated;
+		private readonly ILogger _logger;
 
-		public FileSystemWatcher(IEnumerable<string> directories, IEnumerable<Rule> rules, string defaultDirectory)
+		public FileSystemWatcher(IEnumerable<string> directories, IEnumerable<Rule> rules, string defaultDirectory, ILogger logger)
 		{
-			_watcherHelper = new FileSystemWatcherHelper(rules, defaultDirectory);
+			_logger = logger;
+			_watcherHelper = new FileSystemWatcherHelper(rules, defaultDirectory, logger);
+
 			foreach (string directory in directories)
 			{
 				this.CreateWatcherForDirectory(directory);
@@ -21,9 +23,14 @@ namespace FileSystemWatcherApp
 
 		private void CreateWatcherForDirectory(string directory)
 		{
+			if (!IODirectory.Exists(directory))
+			{
+				IODirectory.CreateDirectory(directory);
+			}
+
 			System.IO.FileSystemWatcher fileSystemWatcher = new System.IO.FileSystemWatcher(directory)
 			{
-				NotifyFilter = NotifyFilters.CreationTime,
+				NotifyFilter = NotifyFilters.FileName
 			};
 
 			fileSystemWatcher.Created += (sender, eventArgs) =>
@@ -36,7 +43,13 @@ namespace FileSystemWatcherApp
 
 		private void OnFileCreated(string fileName, string filePath)
 		{
-			FileCreated?.Invoke(this, new FileCreatedEventArgs { Name = fileName, CreationDate = File.GetCreationTime(filePath) });
+			var creationDate = File.GetCreationTime(filePath);
+			_logger?.Log(string.Format(
+					LocalizationResources.LocalizationResources.CreatedFileFound,
+					fileName,
+					creationDate.ToShortDateString()));
+
+			_watcherHelper.ShiftFile(fileName, filePath);
 		}
 	}
 }

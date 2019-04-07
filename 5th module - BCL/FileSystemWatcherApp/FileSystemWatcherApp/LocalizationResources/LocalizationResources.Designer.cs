@@ -86,5 +86,32 @@ namespace FileSystemWatcherApp.LocalizationResources {
                 return ResourceManager.GetString("ExitMessage", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File was successfully transfered.
+        /// </summary>
+        public static string FileTransfered {
+            get {
+                return ResourceManager.GetString("FileTransfered", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Found matching rule.
+        /// </summary>
+        public static string FoundMatchingRule {
+            get {
+                return ResourceManager.GetString("FoundMatchingRule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not found matching rule.
+        /// </summary>
+        public static string NotFoundMatchingRule {
+            get {
+                return ResourceManager.GetString("NotFoundMatchingRule", resourceCulture);
+            }
+        }
     }
 }

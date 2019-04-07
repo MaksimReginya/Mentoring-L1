@@ -50,6 +50,7 @@
     <Compile Include="FileCreatedEventArgs.cs" />
     <Compile Include="FileSystemWatcher.cs" />
     <Compile Include="FileSystemWatcherHelper.cs" />
+    <Compile Include="ILogger.cs" />
     <Compile Include="LocalizationResources\LocalizationResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

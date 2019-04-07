@@ -126,4 +126,13 @@
   <data name="CreatedFileFound" xml:space="preserve">
     <value>File "{0}" was created on "{1}"</value>
   </data>
+  <data name="FoundMatchingRule" xml:space="preserve">
+    <value>Found matching rule</value>
+  </data>
+  <data name="FileTransfered" xml:space="preserve">
+    <value>File was successfully transfered</value>
+  </data>
+  <data name="NotFoundMatchingRule" xml:space="preserve">
+    <value>Not found matching rule</value>
+  </data>
 </root>

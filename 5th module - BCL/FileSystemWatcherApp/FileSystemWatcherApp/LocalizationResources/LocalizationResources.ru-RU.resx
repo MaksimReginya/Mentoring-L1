@@ -106,4 +106,13 @@
   <data name="CreatedFileFound" xml:space="preserve">
     <value>Файл "{0}" был создан "{1}"</value>
   </data>
+  <data name="FoundMatchingRule" xml:space="preserve">
+    <value>Найдено подходящее правило</value>
+  </data>
+  <data name="FileTransfered" xml:space="preserve">
+    <value>Файл был успешно перемещен</value>
+  </data>
+  <data name="NotFoundMatchingRule" xml:space="preserve">
+    <value>Подходящее правило не найдено</value>
+  </data>
 </root>

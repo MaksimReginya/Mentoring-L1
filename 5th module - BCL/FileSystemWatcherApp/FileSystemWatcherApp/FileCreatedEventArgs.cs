@@ -6,6 +6,8 @@ namespace FileSystemWatcherApp
 	{
 		public string Name { get; set; }
 
+		public string FullPath { get; set; }
+
 		public DateTime CreationDate { get; set; }
 	}
 }
