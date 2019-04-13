@@ -36,7 +36,7 @@ namespace IoCContainer
 				{
 					throw new IoCContainerException("Class cannot contain ImportConstructorAttribute and ImportAttribute at the same time");
 				}
-				else if (!(importConstructorAttribute == null && !hasImportedProperties))
+				else if (importConstructorAttribute != null ^ hasImportedProperties)
 				{
 					this.AddType(type);
 					continue;
