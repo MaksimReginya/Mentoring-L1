@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Http;
 using System.Text;
 using CsQuery;
@@ -9,6 +10,7 @@ namespace SimpleWGet
 {
 	public class WGet : ISimpleWGet
 	{
+		private const int MaxFileNameLength = 260;
 		private readonly int _maxDepthLevel;
 		private readonly ISaver _saver;
 		private readonly IRestrictionHelper _restrictionHelper;
@@ -40,7 +42,11 @@ namespace SimpleWGet
 
 		private void ProcessUrl(HttpClient httpClient, Uri url, int depthLevel)
 		{
-			if (depthLevel > _maxDepthLevel || _downloadedUrls.Contains(url))
+			if (depthLevel > _maxDepthLevel
+				|| _downloadedUrls.Contains(url)
+				|| (!url.Scheme.Equals("http", StringComparison.OrdinalIgnoreCase)
+					&& !url.Scheme.Equals("https", StringComparison.OrdinalIgnoreCase))
+				)
 			{
 				return;
 			}
@@ -64,7 +70,7 @@ namespace SimpleWGet
 			{
 				_logger?.Log($"Resource founded: {url}");
 
-				System.IO.Stream stream = response.Content.ReadAsStreamAsync().Result;
+				Stream stream = response.Content.ReadAsStreamAsync().Result;
 				_saver.SaveResource(url, stream);
 				stream.Close();
 			}
@@ -72,18 +78,35 @@ namespace SimpleWGet
 
 		private void ProcessHtmlPage(HttpClient httpClient, HttpResponseMessage response, Uri url, int depthLevel)
 		{
-			System.IO.Stream stream = response.Content.ReadAsStreamAsync().Result;
+			Stream stream = response.Content.ReadAsStreamAsync().Result;
+			MemoryStream memoryStream = new MemoryStream();
+			stream.CopyTo(memoryStream);
+			stream.Seek(0, SeekOrigin.Begin);
+
 			CQ cq = CQ.Create(stream, Encoding.UTF8);
 
-			string name = cq.Find("title").FirstElement().InnerText + ".html";
-			_saver.SaveHtmlPage(url, name, stream);
+			_saver.SaveHtmlPage(url, this.GetHtmlPageName(cq), memoryStream);
 
 			foreach (IDomObject el in cq.Find("a"))
 			{
 				this.ProcessUrl(httpClient, new Uri(httpClient.BaseAddress, el.GetAttribute("href")), depthLevel + 1);
 			}
 
+			memoryStream.Close();
 			stream.Close();
+		}
+
+		private string GetHtmlPageName(CQ cq)
+		{
+			string extension = ".html";
+			string name = cq.Find("title").FirstElement()?.InnerText;
+
+			if (name == null || name.Length + extension.Length > MaxFileNameLength)
+			{
+				name = Guid.NewGuid().ToString();
+			}
+
+			return name + extension;
 		}
 	}
 }

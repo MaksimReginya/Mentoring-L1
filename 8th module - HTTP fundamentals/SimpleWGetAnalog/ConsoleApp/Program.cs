@@ -37,7 +37,7 @@ namespace ConsoleApp
 				logger.Log($"Some error occured during site downloading: {ex.Message}");
 			}
 
-			Console.WriteLine("Finish dowonloading. Press enter to exit.");
+			Console.WriteLine("Finish downloading. Press enter to exit.");
 			Console.ReadLine();
 		}
 
