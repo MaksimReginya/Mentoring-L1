@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Text;
+using System.Web;
 using CsQuery;
 using SimpleWGet.Interfaces;
 
@@ -100,6 +101,7 @@ namespace SimpleWGet
 		{
 			string extension = ".html";
 			string name = cq.Find("title").FirstElement()?.InnerText;
+			name = HttpUtility.HtmlDecode(name);
 
 			if (name == null || name.Length + extension.Length > MaxFileNameLength)
 			{
