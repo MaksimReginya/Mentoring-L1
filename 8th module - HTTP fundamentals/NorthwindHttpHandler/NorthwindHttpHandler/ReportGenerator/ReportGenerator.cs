@@ -70,21 +70,35 @@ namespace NorthwindHttpHandler.ReportGenerator
 			}
 			else if (!string.IsNullOrEmpty(dateFrom))
 			{
-				DateTime date = DateTime.Parse(dateFrom);
+				if (!DateTime.TryParse(dateFrom, out DateTime date))
+				{
+					throw new InvalidRequestException("dateFrom is invalid");
+				}
+
 				_orders = _orders.Where(order => order.OrderDate.Value >= date);
 			}
 			else if (!string.IsNullOrEmpty(dateTo))
 			{
-				DateTime date = DateTime.Parse(dateTo);
+				if (!DateTime.TryParse(dateTo, out DateTime date))
+				{
+					throw new InvalidRequestException("dateTo is invalid");
+				}
+
 				_orders = _orders.Where(order => order.OrderDate.Value <= date);
 			}
 		}
 
 		private void FilterByTake()
 		{
-			if (!int.TryParse(_queryString["take"], out int take))
+			if (string.IsNullOrEmpty(_queryString["take"]))
 			{
 				return;
+			}
+
+			if (!int.TryParse(_queryString["take"], out int take)
+				|| take < 0)
+			{
+				throw new InvalidRequestException("take parameter must be a non-negative integer");
 			}
 
 			_orders = _orders.Take(take);
@@ -92,9 +106,15 @@ namespace NorthwindHttpHandler.ReportGenerator
 
 		private void FilterBySkip()
 		{
-			if (!int.TryParse(_queryString["skip"], out int skip))
+			if (string.IsNullOrEmpty(_queryString["skip"]))
 			{
 				return;
+			}
+
+			if (!int.TryParse(_queryString["skip"], out int skip)
+				|| skip < 0)
+			{
+				throw new InvalidRequestException("skip parameter must be a non-negative integer");
 			}
 
 			_orders = _orders.Skip(skip);

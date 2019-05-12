@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using NorthwindHttpHandler.DataAccess;
+using NorthwindHttpHandler.Exceptions;
 using NorthwindHttpHandler.ReportGenerator;
 
 namespace NorthwindHttpHandler
@@ -25,22 +26,32 @@ namespace NorthwindHttpHandler
 				queryString = this.ParseRequestBody(context.Request);
 			}
 
-			if (queryString == null || !queryString.HasKeys())
+			if (queryString == null)
 			{
-				return;
+				queryString = new NameValueCollection();
 			}
 
 			ReportFormat format = this.ParseReportFormat(context.Request);
 			using (DataModel model = new DataModel())
 			{
 				Generator generator = new Generator(model.Orders.AsQueryable(), queryString);
-				generator.CreateReport(context.Response, format);
+
+				try
+				{
+					generator.CreateReport(context.Response, format);
+				}
+				catch (InvalidRequestException ex)
+				{
+					context.Response.StatusCode = 400;
+					context.Response.Output.WriteLine(ex.Message);
+				}
 			}
 		}
 
 		private ReportFormat ParseReportFormat(HttpRequest request)
 		{
-			if (_xmlAcceptTypes.Intersect(request.AcceptTypes).Any())
+			if (request.AcceptTypes != null
+				&& _xmlAcceptTypes.Intersect(request.AcceptTypes).Any())
 			{
 				return ReportFormat.Xml;
 			}
