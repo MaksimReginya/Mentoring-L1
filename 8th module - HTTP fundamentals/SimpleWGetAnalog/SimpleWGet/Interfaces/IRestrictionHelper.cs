@@ -4,6 +4,7 @@ namespace SimpleWGet.Interfaces
 {
 	public interface IRestrictionHelper
 	{
-		bool IsRestricted(Uri url);
+		bool IsExtensionRestricted(Uri url);
+		bool IsDomainRestricted(Uri url);
 	}
 }

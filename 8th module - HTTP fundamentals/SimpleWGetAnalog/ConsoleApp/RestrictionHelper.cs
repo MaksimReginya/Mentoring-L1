@@ -18,9 +18,9 @@ namespace ConsoleApp
 			_extensions = extensions;
 		}
 
-		public bool IsRestricted(Uri url) => this.IsExtensionRestricted(url) || this.IsDomainRestricted(url);
+		//public bool IsRestricted(Uri url) => this.IsExtensionRestricted(url) || this.IsDomainRestricted(url);
 
-		private bool IsExtensionRestricted(Uri url)
+		public bool IsExtensionRestricted(Uri url)
 		{
 			bool result = false;
 			if (_extensions != null)
@@ -32,7 +32,7 @@ namespace ConsoleApp
 			return result;
 		}
 
-		private bool IsDomainRestricted(Uri url)
+		public bool IsDomainRestricted(Uri url)
 		{
 			switch (_domainRestriction)
 			{

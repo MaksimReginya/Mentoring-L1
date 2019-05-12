@@ -54,21 +54,26 @@ namespace SimpleWGet
 
 			_downloadedUrls.Add(url);
 
-			if (_restrictionHelper.IsRestricted(url))
-			{
-				return;
-			}
-
 			HttpResponseMessage response = httpClient.GetAsync(url).Result;
 
 			if (response.Content.Headers.ContentType.MediaType.Equals("text/html", StringComparison.OrdinalIgnoreCase))
 			{
+				if (_restrictionHelper.IsDomainRestricted(url))
+				{
+					return;
+				}
+
 				_logger?.Log($"Html page founded: {url}");
 
 				this.ProcessHtmlPage(httpClient, response, url, depthLevel);
 			}
 			else
 			{
+				if (_restrictionHelper.IsExtensionRestricted(url))
+				{
+					return;
+				}
+
 				_logger?.Log($"Resource founded: {url}");
 
 				Stream stream = response.Content.ReadAsStreamAsync().Result;
