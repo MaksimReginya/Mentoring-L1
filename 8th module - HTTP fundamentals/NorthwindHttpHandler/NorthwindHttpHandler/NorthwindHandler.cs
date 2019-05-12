@@ -15,7 +15,7 @@ namespace NorthwindHttpHandler
 		public void ProcessRequest(HttpContext context)
 		{
 			NameValueCollection queryString;
-			if (context.Request.QueryString != null)
+			if (context.Request.QueryString != null && context.Request.QueryString.HasKeys())
 			{
 				queryString = context.Request.QueryString;
 			}
@@ -24,19 +24,17 @@ namespace NorthwindHttpHandler
 				queryString = this.ParseRequestBody(context.Request);
 			}
 
-			ReportFormat format = this.ParseReportFormat(context.Request);
-			//StringBuilder s = new StringBuilder();
-			using (DataModel model = new DataModel())
+			if (queryString == null || !queryString.HasKeys())
 			{
-				Generator generator = new Generator(model.Orders.AsQueryable(), queryString, format);
-				/*foreach (var item in model.Orders)
-				{
-					s.Append($"{item.OrderDate}, {item.CustomerID}");
-				}*/
+				return;
 			}
 
-			
-			//context.Response.Output.WriteLine(s.ToString());
+			ReportFormat format = this.ParseReportFormat(context.Request);
+			using (DataModel model = new DataModel())
+			{
+				Generator generator = new Generator(model.Orders.AsQueryable(), queryString);
+				generator.CreateReport(context.Response, format);
+			}
 		}
 
 		private ReportFormat ParseReportFormat(HttpRequest request)

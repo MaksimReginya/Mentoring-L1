@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Web;
+using ClosedXML.Extensions;
 using NorthwindHttpHandler.DataAccess.GeneratedEntities;
 using NorthwindHttpHandler.Exceptions;
 
@@ -10,27 +12,40 @@ namespace NorthwindHttpHandler.ReportGenerator
 	{
 		private IQueryable<Order> _orders;
 		private readonly NameValueCollection _queryString;
-		private readonly ReportFormat _format;
+		private readonly XlsxGenerator _xlsxGenerator;
 
-		public Generator(IQueryable<Order> orders, NameValueCollection queryString, ReportFormat format)
+		public Generator(IQueryable<Order> orders, NameValueCollection queryString)
 		{
 			_orders = orders;
 			_queryString = queryString;
-			_format = format;
+			_xlsxGenerator = new XlsxGenerator();
 		}
 
-		public void CreateReport()
+		public void CreateReport(HttpResponse httpResponse, ReportFormat format)
 		{
-			this.FilterByCustomerId();
-			this.FilterByDate();
-			this.FilterByTake();
-			this.FilterBySkip();
+			this.FilterOrders();
 
+			if (format == ReportFormat.Xlsx)
+			{
+				using (var wb = _xlsxGenerator.CreateWorkbook(_orders))
+				{
+					wb.DeliverToHttpResponse(httpResponse, "NorthwindOrders.xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+				}
+			}
+			else
+			{
+				// generate xml
+			}
 		}
 
 		private void FilterOrders()
 		{
-			
+			_orders = _orders.OrderBy(order => order.OrderID);
+
+			this.FilterByCustomerId();
+			this.FilterByDate();
+			this.FilterByTake();
+			this.FilterBySkip();
 		}
 
 		private void FilterByCustomerId()
