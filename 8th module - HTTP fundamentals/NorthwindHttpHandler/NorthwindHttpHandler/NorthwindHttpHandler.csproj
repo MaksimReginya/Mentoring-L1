@@ -106,7 +106,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataModel.cs" />
+    <Compile Include="DataAccess\DataModel.cs" />
     <Compile Include="DataAccess\GeneratedEntities\Order.cs" />
     <Compile Include="Exceptions\InvalidRequestException.cs" />
     <Compile Include="NorthwindHandler.cs" />
@@ -114,6 +114,7 @@
     <Compile Include="ReportGenerator\ReportFormat.cs" />
     <Compile Include="ReportGenerator\ReportGenerator.cs" />
     <Compile Include="ReportGenerator\XlsxGenerator.cs" />
+    <Compile Include="ReportGenerator\XmlGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

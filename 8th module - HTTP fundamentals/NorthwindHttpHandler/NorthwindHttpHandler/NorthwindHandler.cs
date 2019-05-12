@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Web;
+using NorthwindHttpHandler.DataAccess;
 using NorthwindHttpHandler.ReportGenerator;
 
 namespace NorthwindHttpHandler

@@ -13,12 +13,14 @@ namespace NorthwindHttpHandler.ReportGenerator
 		private IQueryable<Order> _orders;
 		private readonly NameValueCollection _queryString;
 		private readonly XlsxGenerator _xlsxGenerator;
+		private readonly XmlGenerator _xmlGenerator;
 
 		public Generator(IQueryable<Order> orders, NameValueCollection queryString)
 		{
 			_orders = orders;
 			_queryString = queryString;
 			_xlsxGenerator = new XlsxGenerator();
+			_xmlGenerator = new XmlGenerator();
 		}
 
 		public void CreateReport(HttpResponse httpResponse, ReportFormat format)
@@ -34,7 +36,8 @@ namespace NorthwindHttpHandler.ReportGenerator
 			}
 			else
 			{
-				// generate xml
+				httpResponse.ContentType = "application/xml";
+				_xmlGenerator.WriteXmlToResponse(httpResponse, _orders);
 			}
 		}
 

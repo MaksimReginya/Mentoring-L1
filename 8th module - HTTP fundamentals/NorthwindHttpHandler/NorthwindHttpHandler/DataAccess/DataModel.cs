@@ -1,7 +1,7 @@
 using System.Data.Entity;
 using NorthwindHttpHandler.DataAccess.GeneratedEntities;
 
-namespace NorthwindHttpHandler
+namespace NorthwindHttpHandler.DataAccess
 {
 	public partial class DataModel : DbContext
 	{
