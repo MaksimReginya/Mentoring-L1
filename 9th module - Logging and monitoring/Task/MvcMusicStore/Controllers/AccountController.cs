@@ -101,7 +101,6 @@ namespace MvcMusicStore.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-			throw new System.Exception();
             return View();
         }
 
